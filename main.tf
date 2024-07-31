@@ -82,7 +82,7 @@ resource "confluent_schema_registry_cluster" "env" {
 # Create the Environment API Key Pairs, rotate them in accordance to a time schedule, and provide the current
 # acitve API Key Pair to use
 module "schema_registry_api_key_rotation" {
-    source  = "github.com/j3-signalroom/j3-iac-confluent_cloud_resource_api_key_rotation-tf"
+    source  = "github.com/j3-signalroom/iac-confluent_cloud_resource_api_key_rotation-tf_module"
 
     # Required Input(s)
     owner = {
@@ -132,7 +132,7 @@ resource "confluent_service_account" "demo_kafka_cluster_api" {
 # Create the Kafka Cluster API Key Pairs, rotate them in accordance to a time schedule, and provide the current acitve API Key Pair
 # to use
 module "demo_kafka_cluster_api_key_rotation" {
-    source  = "github.com/j3-signalroom/j3-iac-confluent_cloud_resource_api_key_rotation-tf"
+    source  = "github.com/j3-signalroom/iac-confluent_cloud_resource_api_key_rotation-tf_module"
 
     #Required Input(s)
     owner = {
