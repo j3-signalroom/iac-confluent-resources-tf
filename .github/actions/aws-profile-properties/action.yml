@@ -23,7 +23,7 @@ runs:
       working-directory: ./.github/aws-profile/
       id: aws-profile-property
       run: |
-        export $(grep -v '^#' demo-${{ inputs.aws_profile }}.env | xargs)        
+        export $(grep -v '^#' ${{ inputs.aws_profile }}.env | xargs)        
         echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" >> $GITHUB_OUTPUT
         echo "### AWS Profile Properities and Workflow Inputs" >> $GITHUB_STEP_SUMMARY
         echo `date` >> $GITHUB_STEP_SUMMARY

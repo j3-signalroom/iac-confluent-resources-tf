@@ -5,7 +5,7 @@
 <!-- toc -->
 + [Purpose](#purpose)
     - [`/confluent_cloud_resource/schema_registry`](#confluent_cloud_resourceschema_registry)
-    - [`/confluent_cloud_resource/demo-kafka-cluster`](#confluent_cloud_resourcedemo-kafka-cluster)
+    - [`/confluent_cloud_resource/kafka-cluster`](#confluent_cloud_resourcekafka-cluster)
 + [How to use this repo?](#how-to-use-this-repo)
     + [GitHub Setup](#github-setup)
         - [Terraform Cloud API token](#terraform-cloud-api-token)
@@ -27,7 +27,7 @@ Along with the current active API Key of each of the Confluent Cloud Resources, 
 > api_secret|The secret of the API Key.
 > rest_endpoint|The HTTP endpoint of the Schema Registry cluster.
 
-### `/confluent_cloud_resource/demo-kafka-cluster`
+### `/confluent_cloud_resource/kafka-cluster`
 > Key|Value Description
 > -|-
 > api_key|The ID of the API Key.
