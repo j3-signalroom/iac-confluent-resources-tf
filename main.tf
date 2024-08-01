@@ -46,7 +46,7 @@ resource "confluent_environment" "env" {
 }
 
 # Create the Service Account for the Kafka Cluster API
-resource "confluent_service_account" "schema_registry_api" {
+resource "confluent_service_account" "schema_registry_cluster_api" {
     display_name = "${var.aws_profile}-environment-api"
     description  = "Environment API Service Account"
 }
@@ -81,14 +81,14 @@ resource "confluent_schema_registry_cluster" "env" {
 
 # Create the Environment API Key Pairs, rotate them in accordance to a time schedule, and provide the current
 # acitve API Key Pair to use
-module "schema_registry_api_key_rotation" {
+module "schema_registry_cluster_api_key_rotation" {
     source  = "github.com/j3-signalroom/iac-confluent_cloud_resource_api_key_rotation-tf_module"
 
     # Required Input(s)
     owner = {
-        id          = confluent_service_account.schema_registry_api.id
-        api_version = confluent_service_account.schema_registry_api.api_version
-        kind        = confluent_service_account.schema_registry_api.kind
+        id          = confluent_service_account.schema_registry_cluster_api.id
+        api_version = confluent_service_account.schema_registry_cluster_api.api_version
+        kind        = confluent_service_account.schema_registry_cluster_api.kind
     }
 
     resource = {
@@ -161,15 +161,15 @@ module "kafka_cluster_api_key_rotation" {
 }
 
 # Create the Schema Registry Cluster Secrets: API Key Pair and REST endpoint
-resource "aws_secretsmanager_secret" "schema_registry_api_key" {
+resource "aws_secretsmanager_secret" "schema_registry_cluster_api_key" {
     name = "${local.secrets_prefix}/schema_registry_cluster"
     description = "Schema Registry Cluster secrets"
 }
 
-resource "aws_secretsmanager_secret_version" "schema_registry_api_key" {
-    secret_id     = aws_secretsmanager_secret.schema_registry_api_key.id
-    secret_string = jsonencode({"api_key": "${module.schema_registry_api_key_rotation.active_api_key.id}", 
-                                "api_secret": "${module.schema_registry_api_key_rotation.active_api_key.secret}",
+resource "aws_secretsmanager_secret_version" "schema_registry_cluster_api_key" {
+    secret_id     = aws_secretsmanager_secret.schema_registry_cluster_api_key.id
+    secret_string = jsonencode({"api_key": "${module.schema_registry_cluster_api_key_rotation.active_api_key.id}", 
+                                "api_secret": "${module.schema_registry_cluster_api_key_rotation.active_api_key.secret}",
                                 "rest_endpoint": "${confluent_schema_registry_cluster.env.rest_endpoint}"})
 }
 
