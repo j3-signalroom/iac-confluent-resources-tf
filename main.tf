@@ -160,10 +160,10 @@ module "kafka_cluster_api_key_rotation" {
     day_count = var.day_count
 }
 
-# Create the Schema Registry Secrets: API Key Pair and REST endpoint
+# Create the Schema Registry Cluster Secrets: API Key Pair and REST endpoint
 resource "aws_secretsmanager_secret" "schema_registry_api_key" {
-    name = "${local.secrets_prefix}/schema_registry"
-    description = "Schema Registry secrets"
+    name = "${local.secrets_prefix}/schema_registry_cluster"
+    description = "Schema Registry Cluster secrets"
 }
 
 resource "aws_secretsmanager_secret_version" "schema_registry_api_key" {
