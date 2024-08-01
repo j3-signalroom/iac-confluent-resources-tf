@@ -4,7 +4,7 @@
 
 <!-- toc -->
 + [Purpose](#purpose)
-    - [`/confluent_cloud_resource/schema_registry`](#confluent_cloud_resourceschema_registry)
+    - [`/confluent_cloud_resource/schema_registry_cluster`](#confluent_cloud_resourceschema_registry_cluster)
     - [`/confluent_cloud_resource/kafka-cluster`](#confluent_cloud_resourcekafka-cluster)
 + [How to use this repo?](#how-to-use-this-repo)
     + [GitHub Setup](#github-setup)
@@ -19,7 +19,7 @@ The configuration leverages the [IaC Confluent Cloud Resource API Key Rotation T
 
 Along with the current active API Key of each of the Confluent Cloud Resources, Schema Registry Cluster REST endpoint, and Kafka Cluster's Bootstrap URI and REST endpoint are stored in the [AWS Secrets Manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret).  Below are the Secrets created:
 
-### `/confluent_cloud_resource/schema_registry`
+### `/confluent_cloud_resource/schema_registry_cluster`
 
 > Key|Value Description
 > -|-
