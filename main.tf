@@ -33,7 +33,7 @@ locals {
   secrets_prefix = "/confluent_cloud_resource"
 }
 
-# Reference the My Organization Confluent Cloud
+# Reference the Confluent Cloud
 data "confluent_organization" "env" {}
 
 # Create the Confluent Cloud Environment
@@ -45,10 +45,10 @@ resource "confluent_environment" "env" {
     #}
 }
 
-# Create the Service Account for the My Organization Kafka Cluster API
+# Create the Service Account for the Kafka Cluster API
 resource "confluent_service_account" "schema_registry_api" {
     display_name = "${var.aws_profile}-environment-api"
-    description  = "My Organization Environment API Service Account"
+    description  = "Environment API Service Account"
 }
 
 # Config the environment's schema registry
@@ -110,9 +110,9 @@ module "schema_registry_api_key_rotation" {
     day_count = var.day_count
 }
 
-# Create the My Organization Kafka cluster
+# Create the Kafka cluster
 resource "confluent_kafka_cluster" "kafka_cluster" {
-    display_name = "myorg"
+    display_name = "kafka_cluster"
     availability = "SINGLE_ZONE"
     cloud        = local.cloud
     region       = var.aws_region
@@ -123,10 +123,10 @@ resource "confluent_kafka_cluster" "kafka_cluster" {
     }
 }
 
-# Create the Service Account for the My Organization Kafka Cluster API
+# Create the Service Account for the Kafka Cluster API
 resource "confluent_service_account" "kafka_cluster_api" {
     display_name = "${var.aws_profile}-kafka_cluster-api"
-    description  = "My Organization Kafka Cluster API Service Account"
+    description  = "Kafka Cluster API Service Account"
 }
 
 # Create the Kafka Cluster API Key Pairs, rotate them in accordance to a time schedule, and provide the current acitve API Key Pair
@@ -155,7 +155,7 @@ module "kafka_cluster_api_key_rotation" {
     confluent_cloud_api_secret = var.confluent_cloud_api_secret
 
     # Optional Input(s)
-    key_display_name = "My Organization Confluent Kafka Cluster Service Account API Key - {date} - Managed by Terraform Cloud"
+    key_display_name = "Confluent Kafka Cluster Service Account API Key - {date} - Managed by Terraform Cloud"
     number_of_api_keys_to_retain = var.number_of_api_keys_to_retain
     day_count = var.day_count
 }
@@ -163,7 +163,7 @@ module "kafka_cluster_api_key_rotation" {
 # Create the Schema Registry Secrets: API Key Pair and REST endpoint
 resource "aws_secretsmanager_secret" "schema_registry_api_key" {
     name = "${local.secrets_prefix}/schema_registry"
-    description = "My Organization Schema Registry secrets"
+    description = "Schema Registry secrets"
 }
 
 resource "aws_secretsmanager_secret_version" "schema_registry_api_key" {
@@ -176,8 +176,8 @@ resource "aws_secretsmanager_secret_version" "schema_registry_api_key" {
 # Create the Kafka Cluster Secrets: API Key Pair, JAAS (Java Authentication and Authorization) representation,
 # bootstrap server URI and REST endpoint
 resource "aws_secretsmanager_secret" "kafka_cluster_api_key" {
-    name = "${local.secrets_prefix}/kafka-cluster"
-    description = "My Organization Kafka Cluster secrets"
+    name = "${local.secrets_prefix}/kafka_cluster"
+    description = "Kafka Cluster secrets"
 }
 
 resource "aws_secretsmanager_secret_version" "kafka_cluster_api_key" {
