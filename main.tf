@@ -1,4 +1,5 @@
 terraform {
+  
     cloud {
         #organization ="<TERRAFORM CLOUD ORGANIZATION NAME>"
         organization = "signalroom"
@@ -6,6 +7,8 @@ terraform {
         workspaces {
             #name = "<TERRAFORM CLOUD ORGANIZATION's WORKSPACE NAME>"
             name = "confluent-cloud-us-east"
+
+            
         }
   }
 
