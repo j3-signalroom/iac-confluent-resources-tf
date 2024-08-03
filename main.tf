@@ -170,8 +170,8 @@ resource "aws_secretsmanager_secret" "schema_registry_cluster_api_key" {
 
 resource "aws_secretsmanager_secret_version" "schema_registry_cluster_api_key" {
     secret_id     = aws_secretsmanager_secret.schema_registry_cluster_api_key.id
-    secret_string = jsonencode({"api_key": "${module.schema_registry_cluster_api_key_rotation.active_api_key.id}", 
-                                "api_secret": "${module.schema_registry_cluster_api_key_rotation.active_api_key.secret}",
+    secret_string = jsonencode({"basic.auth.credentials.source": "USER_INFO",
+                                "basic.auth.user.info": "${module.schema_registry_cluster_api_key_rotation.active_api_key.id}:${module.schema_registry_cluster_api_key_rotation.active_api_key.secret}",
                                 "schema.registry.url": "${confluent_schema_registry_cluster.env.rest_endpoint}"})
 }
 
