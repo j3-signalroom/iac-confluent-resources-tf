@@ -1,5 +1,4 @@
 terraform {
-  
     cloud {
         organization ="<TERRAFORM CLOUD ORGANIZATION NAME>"
 
@@ -185,7 +184,7 @@ resource "aws_secretsmanager_secret" "kafka_cluster_api_key" {
 resource "aws_secretsmanager_secret_version" "kafka_cluster_api_key" {
     secret_id     = aws_secretsmanager_secret.kafka_cluster_api_key.id
     secret_string = jsonencode({"sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username='${module.kafka_cluster_api_key_rotation.active_api_key.id}' password='${module.kafka_cluster_api_key_rotation.active_api_key.secret}';",
-                                "bootstrap.servers": "${confluent_kafka_cluster.kafka_cluster.bootstrap_endpoint}"})
+                                "bootstrap.servers": replace(confluent_kafka_cluster.kafka_cluster.bootstrap_endpoint, "SASL_SSL://", "")})
 }
 
 resource "aws_ssm_parameter" "consumer_kafka_client_auto_commit_interval_ms" {
