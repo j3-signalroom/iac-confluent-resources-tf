@@ -164,7 +164,7 @@ module "kafka_cluster_api_key_rotation" {
 
 # Create the Schema Registry Cluster Secrets: API Key Pair and REST endpoint
 resource "aws_secretsmanager_secret" "schema_registry_cluster_api_key" {
-    name = "${local.secrets_prefix}/schema_registry_cluster"
+    name = "${local.secrets_prefix}/schema_registry_cluster/java_client"
     description = "Schema Registry Cluster secrets"
 }
 
@@ -178,17 +178,14 @@ resource "aws_secretsmanager_secret_version" "schema_registry_cluster_api_key" {
 # Create the Kafka Cluster Secrets: API Key Pair, JAAS (Java Authentication and Authorization) representation,
 # bootstrap server URI and REST endpoint
 resource "aws_secretsmanager_secret" "kafka_cluster_api_key" {
-    name = "${local.secrets_prefix}/kafka_cluster"
+    name = "${local.secrets_prefix}/kafka_cluster/java_client"
     description = "Kafka Cluster secrets"
 }
 
 resource "aws_secretsmanager_secret_version" "kafka_cluster_api_key" {
     secret_id     = aws_secretsmanager_secret.kafka_cluster_api_key.id
-    secret_string = jsonencode({"api_key": "${module.kafka_cluster_api_key_rotation.active_api_key.id}", 
-                                "api_secret": "${module.kafka_cluster_api_key_rotation.active_api_key.secret}",
-                                "java_client_jaas_configuration": "org.apache.kafka.common.security.plain.PlainLoginModule required username='${module.kafka_cluster_api_key_rotation.active_api_key.id}' password='${module.kafka_cluster_api_key_rotation.active_api_key.secret}';",
-                                "bootstrap_url": "${confluent_kafka_cluster.kafka_cluster.bootstrap_endpoint}"
-                                "rest_endpoint": "${confluent_kafka_cluster.kafka_cluster.rest_endpoint}"})
+    secret_string = jsonencode({"sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username='${module.kafka_cluster_api_key_rotation.active_api_key.id}' password='${module.kafka_cluster_api_key_rotation.active_api_key.secret}';",
+                                "bootstrap.servers": "${confluent_kafka_cluster.kafka_cluster.bootstrap_endpoint}"})
 }
 
 resource "aws_ssm_parameter" "consumer_kafka_client_auto_commit_interval_ms" {
