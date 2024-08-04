@@ -133,7 +133,7 @@ resource "confluent_service_account" "kafka_cluster_api" {
 resource "confluent_role_binding" "kafka_cluster_api_environment_admin" {
   principal   = "User:${confluent_service_account.kafka_cluster_api.id}"
   role_name   = "EnvironmentAdmin"
-  crn_pattern = data.confluent_environment.env.resource_name
+  crn_pattern = confluent_environment.env.resource_name
 }
 
 # Create the Kafka Cluster API Key Pairs, rotate them in accordance to a time schedule, and provide the current acitve API Key Pair
