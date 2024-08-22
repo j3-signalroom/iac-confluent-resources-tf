@@ -1,4 +1,5 @@
 # IaC Confluent Cloud Resources Terraform Configuration
+[Terraform](https://terraform.io) is an open-source Infrastructure as Code (IaC) tool developed by HashiCorp. It functions as a _declarative_ IaC tool, meaning that in a YAML-like syntax, you specify **what** [Confluent resources](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs) you want to manage (e.g., Kafka Clusters, Environments, Schema Registry Clusters, Schemas, Topics, Service Accounts, etc). This contrasts with Java, an _imperative_ language where you must provide step-by-step instructions to implement something. Terraform records your current state and compares it with your desired state. It then generates a reconciliation plan between the two states, which Terraform can execute to create new resources or update/delete existing ones.
 
 **Table of Contents**
 
