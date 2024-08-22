@@ -4,7 +4,7 @@
 
 <!-- toc -->
 + [Purpose](#purpose)
-    + [AWS Secrets Manager]()
+    + [AWS Secrets Manager](#aws-secrets-manager)
         - [`/confluent_cloud_resource/schema_registry_cluster/java_client`](#confluent_cloud_resourceschema_registry_clusterjava_client)
         - [`/confluent_cloud_resource/kafka_cluster/java_client`](#confluent_cloud_resourcekafka_clusterjava_client)
     + [AWS Systems Manager Parameter Store]()
