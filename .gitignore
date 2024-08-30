@@ -1,3 +1,7 @@
+.DS_Store
+.env
+.vscode/
+scratchpad.md
 # Local .terraform directories
 **/.terraform/*
 
@@ -33,5 +37,3 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-
-.DS_Store
