@@ -1,71 +1,24 @@
-# IaC Confluent Cloud Resources Terraform Configuration
-[Terraform](https://terraform.io) is an open-source Infrastructure as Code (IaC) tool developed by HashiCorp. It functions as a _declarative_ IaC tool, meaning that in a YAML-like syntax, you specify **what** [Confluent resources](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs) you want to manage (e.g., Kafka Clusters, Environments, Schema Registry Clusters, Schemas, Topics, Service Accounts, etc). This contrasts with Java, an _imperative_ language where you must provide step-by-step instructions to implement something. Terraform records your current state and compares it with your desired state. It then generates a reconciliation plan between the two states, which Terraform can execute to create new resources or update/delete existing ones.
+# IaC Confluent Resources Terraform Configuration
+[Terraform](https://terraform.io), an open-source Infrastructure as Code (IaC) tool developed by HashiCorp, uses a **declarative** approach for managing infrastructure resources. Unlike **imperative** programming languages like Java, which require explicit, sequential commands to achieve a specific outcome, Terraform enables users to define their desired infrastructure state through configuration files using a YAML-like syntax. This approach abstracts the complexity of manual infrastructure management by allowing users to focus on "what" the final state should be rather than "how" to achieve it.
+
+With Terraform, users can efficiently manage a wide range of [Confluent resources](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs)—including Kafka Clusters, Environments, Schema Registry Clusters, Schemas, Topics, and Service Accounts—by defining their desired state in configuration files. Terraform maintains a detailed record of the current state of these resources and compares it against the desired state specified by the user. Based on this comparison, Terraform automatically generates a reconciliation plan to bring the existing infrastructure into alignment with the desired configuration. This process involves creating, updating, or deleting resources as needed, enabling consistent, repeatable, and predictable management of infrastructure components.
+
+The configuration leverages the [**IaC Confluent API Key Rotation Terraform module**](https://github.com/j3-signalroom/iac-confluent-api_key_rotation-tf_module) to automate the creation and rotation of API Keys for both the [Kafka Cluster](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs/resources/confluent_kafka_cluster) and the [Schema Registry Cluster](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs/resources/confluent_schema_registry_cluster) in Confluent Cloud. This module ensures that each API Key is securely rotated based on a defined schedule, reducing the risk of credential compromise and improving the overall security of the data streaming environment.
+
+To protect sensitive credentials, the configuration securely stores the generated API Key pairs for both resources in [**AWS Secrets Manager**](.blog/aws-secrets-manager-secrets.md), ensuring that only authorized users and services have access to these credentials. This secure storage method prevents unauthorized access and minimizes the risk of key exposure.
+
+Additionally, the configuration manages **Kafka client configuration parameters**—such as consumer and producer settings—by storing them in the [**AWS Systems Manager Parameter Store**](.blog/aws-parameter-store-parameters.md). This approach centralizes the management of these parameters, provides secure access controls, and allows for easy versioning and auditing, simplifying the operational management of Kafka clients.
 
 **Table of Contents**
 
 <!-- toc -->
-+ [Purpose](#purpose)
-    + [AWS Secrets Manager](#aws-secrets-manager)
-        - [`/confluent_cloud_resource/schema_registry_cluster/java_client`](#confluent_cloud_resourceschema_registry_clusterjava_client)
-        - [`/confluent_cloud_resource/kafka_cluster/java_client`](#confluent_cloud_resourcekafka_clusterjava_client)
-    + [AWS Systems Manager Parameter Store]()
-        - [`/confluent_cloud_resource/consumer_kafka_client`](#confluent_cloud_resourceconsumer_kafka_client)
-        - [`/confluent_cloud_resource/producer_kafka_client`](#confluent_cloud_resourceproducer_kafka_client)
 + [How to use this repo?](#how-to-use-this-repo)
     + [GitHub Setup](#github-setup)
         - [Terraform Cloud API token](#terraform-cloud-api-token)
         - [Confluent Cloud API](#confluent-cloud-api)
 <!-- tocstop -->
 
-## Purpose
-The configuration leverages the [IaC Confluent Cloud Resource API Key Rotation Terraform module](https://github.com/j3-signalroom/iac-confluent_cloud_resource_api_key_rotation-tf_module) to handle the creation and rotation of each of the Confluent Cloud Resource API Key for each of the Confluent Cloud Resources:
-- [Schema Registry Cluster](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs/resources/confluent_schema_registry_cluster)
-- [Kafka Cluster](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs/resources/confluent_kafka_cluster)
 
-Along with the Schema Registry Cluster REST endpoint, and Kafka Cluster's Bootstrap URI are stored in the [AWS Secrets Manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret).
-
-In addition, the [consumer](https://docs.confluent.io/platform/current/installation/configuration/consumer-configs.html) and [producer]() Kafka client configuration parameters are stored in the [AWS Systems Manager Parameter Store](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter).
-
-### AWS Secrets Manager
-Here is the list of secrets generated by the Terraform configuration:
-
-#### `/confluent_cloud_resource/schema_registry_cluster/java_client`
-> Key|Description
-> -|-
-> `basic.auth.credentials.source`|Specifies the the format used in the `basic.auth.user.info` property.
-> `basic.auth.user.info`|Specifies the API Key and Secret for the Schema Registry Cluster.
-> `schema.registry.url`|The HTTP endpoint of the Schema Registry cluster.
-
-#### `/confluent_cloud_resource/kafka_cluster/java_client`
-> Key|Description
-> -|-
-> `sasl.jaas.config`|Java Authentication and Authorization Service (JAAS) for SASL configuration.
-> `bootstrap.servers`|The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster.
-
-### AWS Systems Manager Parameter Store
-Here is the list of parameters generated by the Terraform configuration:
-
-#### `/confluent_cloud_resource/consumer_kafka_client`
-> Key|Description
-> -|-
-> `auto.commit.interval.ms`|The `auto.commit.interval.ms` property in Apache Kafka defines the frequency (in milliseconds) at which the Kafka consumer automatically commits offsets. This is relevant when `enable.auto.commit` is set to true, which allows Kafka to automatically commit the offsets periodically without requiring the application to do so explicitly.
-> `auto.offset.reset`|Specifies the behavior of the consumer when there is no committed position (which occurs when the group is first initialized) or when an offset is out of range. You can choose either to reset the position to the `earliest` offset or the `latest` offset (the default).
-> `basic.auth.credentials.source`|This property specifies the source of the credentials for basic authentication.
-> `client.dns.lookup`|This property specifies how the client should resolve the DNS name of the Kafka brokers.
-> `enable.auto.commit`|When set to true, the Kafka consumer automatically commits the offsets of messages it has processed at regular intervals, specified by the `auto.commit.interval.ms` property. If set to false, the application is responsible for committing offsets manually.
-> `max.poll.interval.ms`|This property defines the maximum amount of time (in milliseconds) that can pass between consecutive calls to poll() on a consumer. If this interval is exceeded, the consumer will be considered dead, and its partitions will be reassigned to other consumers in the group.
-> `request.timeout.ms`|This property sets the maximum amount of time the client will wait for a response from the Kafka broker. If the server does not respond within this time, the client will consider the request as failed and handle it accordingly.
-> `sasl.mechanism`|This property specifies the SASL mechanism to be used for authentication.
-> `security.protocol`|This property specifies the protocol used to communicate with Kafka brokers.
-> `session.timeout.ms`|This property sets the timeout for detecting consumer failures when using Kafka's group management. If the consumer does not send a heartbeat to the broker within this period, it will be considered dead, and its partitions will be reassigned to other consumers in the group.
-
-#### `/confluent_cloud_resource/producer_kafka_client`
-> Key|Description
-> -|-
-> `sasl.mechanism`|This property specifies the SASL mechanism to be used for authentication.
-> `security.protocol`|This property specifies the protocol used to communicate with Kafka brokers.
-> `client.dns.lookup`|This property specifies how the client should resolve the DNS name of the Kafka brokers.
-> `acks`|This property specifies the number of acknowledgments the producer requires the leader to have received before considering a request complete.
 
 ## How to use this repo?
 In the [main.tf](main.tf) replace **`<TERRAFORM CLOUD ORGANIZATION NAME>`** in the `terraform.cloud` block with your [Terraform Cloud Organization Name](https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/organizations) and **`<TERRAFORM CLOUD ORGANIZATION's WORKSPACE NAME>`** in the `terraform.cloud.workspaces` block with your [Terraform Cloud Organization's Workspaces Name](https://developer.hashicorp.com/terraform/cloud-docs/workspaces).
