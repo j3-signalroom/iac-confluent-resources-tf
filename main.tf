@@ -1,20 +1,20 @@
 terraform {
     cloud {
-        organization ="<TERRAFORM CLOUD ORGANIZATION NAME>"
+        organization ="signalroom"
 
         workspaces {
-            name = "<TERRAFORM CLOUD ORGANIZATION's WORKSPACE NAME>"
+            name = "iac-confluent-resources-workspace"
         }
   }
 
   required_providers {
         confluent = {
             source  = "confluentinc/confluent"
-            version = "~> 1.82.0"
+            version = "~> 2.1.0"
         }
         aws = {
             source  = "hashicorp/aws"
-            version = "~> 5.60.0"
+            version = "~> 5.65.0"
         }
     }
 }
