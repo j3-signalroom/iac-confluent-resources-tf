@@ -53,6 +53,8 @@ Additionally, the configuration manages **Kafka client configuration parameters*
     b. In the `terraform.cloud.workspaces` block, replace **`iac-confluent-resources-workspace`** with your [Terraform Cloud Organization's Workspaces Name](https://developer.hashicorp.com/terraform/cloud-docs/workspaces).
 
 ## Resources
+[Terraform Confluent Provider GitHub Examples](https://github.com/confluentinc/terraform-provider-confluent/tree/master/examples/configurations)
+
 [Create a Kafka Cluster on Confluent Cloud from a Template Using Terraform](https://docs.confluent.io/cloud/current/clusters/terraform-provider.html)
 
 [YouTube video by Confluent on Getting started with the Confluent Terraform Provider](https://www.youtube.com/watch?v=ofSQ4j9u6W4)
