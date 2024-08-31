@@ -44,10 +44,10 @@ do
         *"--day_count="*)
             arg_length=12
             day_count=${arg:$arg_length:$(expr ${#arg} - $arg_length)};;
-        "--auto_offset_reset=earliest")
+        --auto_offset_reset=earliest)
             auto_offset_reset_set=true
             auto_offset_reset="earliest";;
-        "--auto_offset_reset=latest")
+        --auto_offset_reset=latest)
             auto_offset_reset_set=true
             auto_offset_reset="latest";;
     esac
@@ -97,10 +97,10 @@ then
 fi
 
 # Check required --auto_offset_reset argument was supplied
-if [ $auto_offset_reset_set = true ]
+if [ $auto_offset_reset_set = false ]
 then
     echo
-    echo "(Error Message 006)  You did not include the proper use of the --confluent_api_secret=<SNOWFLAKE_WAREHOUSE> argument in the call."
+    echo "(Error Message 006)  You did not include the proper use of the --auto_offset_reset=<earliest | latest> argument in the call."
     echo
     echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
     echo

@@ -4,10 +4,6 @@ data "confluent_organization" "env" {}
 # Create the Confluent Cloud Environment
 resource "confluent_environment" "env" {
     display_name = "${var.aws_profile}"
-
-    #lifecycle {
-    #  prevent_destroy = true
-    #}
 }
 
 # Create the Service Account for the Kafka Cluster API
