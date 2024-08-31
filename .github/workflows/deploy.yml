@@ -87,8 +87,8 @@ jobs:
         id: plan
         run: terraform plan
         env:
-          TF_VAR_confluent_cloud_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
-          TF_VAR_confluent_cloud_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
+          TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
+          TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
           TF_VAR_aws_account_id: ${{ steps.aws-profile-properties.outputs.aws_account_id }}
           TF_VAR_aws_profile: ${{ github.event.inputs.aws_profile }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
@@ -100,8 +100,8 @@ jobs:
         id: apply
         run: terraform apply -auto-approve
         env:
-          TF_VAR_confluent_cloud_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
-          TF_VAR_confluent_cloud_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
+          TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
+          TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
           TF_VAR_aws_account_id: ${{ steps.aws-profile-properties.outputs.aws_account_id }}
           TF_VAR_aws_profile: ${{ github.event.inputs.aws_profile }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
