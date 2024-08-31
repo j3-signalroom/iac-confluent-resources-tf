@@ -3,6 +3,7 @@
 #
 # *** Script Syntax ***
 # scripts/run-terraform-locally.sh <create | delete> --profile=<SSO_PROFILE_NAME> \
+#                                                    --environment_name=<ENVIRONMENT_NAMW> \
 #                                                    --confluent_api_key=<CONFLUENT_API_KEY> \
 #                                                    --confluent_api_secret=<CONFLUENT_API_SECRET> \
 #                                                    --day_count=<DAY_COUNT> \
@@ -20,7 +21,7 @@ case $1 in
     echo
     echo "(Error Message 001)  You did not specify one of the commands: create | delete."
     echo
-    echo "Usage:  Require all four arguments ---> `basename $0` <create | delete> --profile=<SSO_PROFILE_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
+    echo "Usage:  Require all four arguments ---> `basename $0` <create | delete> --profile=<SSO_PROFILE_NAME> --environment_name=<ENVIRONMENT_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
     echo
     exit 85 # Common GNU/Linux Exit Code for 'Interrupted system call should be restarted'
     ;;
@@ -41,13 +42,16 @@ do
         *"--confluent_api_secret="*)
             arg_length=23
             confluent_api_secret=${arg:$arg_length:$(expr ${#arg} - $arg_length)};;
+        *"--environment_name="*)
+            arg_length=19
+            environment_name=${arg:$arg_length:$(expr ${#arg} - $arg_length)};;
         *"--day_count="*)
             arg_length=12
             day_count=${arg:$arg_length:$(expr ${#arg} - $arg_length)};;
-        "--auto_offset_reset=earliest")
+        --auto_offset_reset=earliest)
             auto_offset_reset_set=true
             auto_offset_reset="earliest";;
-        "--auto_offset_reset=latest")
+        --auto_offset_reset=latest)
             auto_offset_reset_set=true
             auto_offset_reset="latest";;
     esac
@@ -58,7 +62,7 @@ then
     echo
     echo "(Error Message 002)  You did not include the proper use of the --profile=<SSO_PROFILE_NAME> argument in the call."
     echo
-    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
+    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --environment_name=<ENVIRONMENT_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
     echo
     exit 85 # Common GNU/Linux Exit Code for 'Interrupted system call should be restarted'
 fi
@@ -69,7 +73,7 @@ then
     echo
     echo "(Error Message 003)  You did not include the proper use of the --confluent_api_key=<CONFLUENT_API_KEY> argument in the call."
     echo
-    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
+    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --environment_name=<ENVIRONMENT_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
     echo
     exit 85 # Common GNU/Linux Exit Code for 'Interrupted system call should be restarted'
 fi
@@ -80,29 +84,40 @@ then
     echo
     echo "(Error Message 004)  You did not include the proper use of the --confluent_api_secret=<CONFLUENT_API_SECRET> argument in the call."
     echo
-    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
+    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --environment_name=<ENVIRONMENT_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
     echo
     exit 85 # Common GNU/Linux Exit Code for 'Interrupted system call should be restarted'
 fi
 
 # Check required --day_count argument was supplied
-if [ -z $day_count ]
+if [ -z $day_count ] && [ create_action = true ]
 then
     echo
     echo "(Error Message 005)  You did not include the proper use of the --day_count=<DAY_COUNT> argument in the call."
     echo
-    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
+    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --environment_name=<ENVIRONMENT_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
     echo
     exit 85 # Common GNU/Linux Exit Code for 'Interrupted system call should be restarted'
 fi
 
 # Check required --auto_offset_reset argument was supplied
-if [ $auto_offset_reset_set = true ]
+if [ $auto_offset_reset_set = false ] && [ create_action = true ]
 then
     echo
-    echo "(Error Message 006)  You did not include the proper use of the --confluent_api_secret=<SNOWFLAKE_WAREHOUSE> argument in the call."
+    echo "(Error Message 006)  You did not include the proper use of the --auto_offset_reset=<earliest | latest> argument in the call."
     echo
-    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
+    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --environment_name=<ENVIRONMENT_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
+    echo
+    exit 85 # Common GNU/Linux Exit Code for 'Interrupted system call should be restarted'
+fi
+
+# Check required --environment_name argument was supplied
+if [ -z $environment_name ]
+then
+    echo
+    echo "(Error Message 007)  You did not include the proper use of the --environment_name=<ENVIRONMENT_NAME> argument in the call."
+    echo
+    echo "Usage:  Require all four arguments ---> `basename $0 $1` --profile=<SSO_PROFILE_NAME> --environment_name=<ENVIRONMENT_NAME> --confluent_api_key=<CONFLUENT_API_KEY> --confluent_api_secret=<CONFLUENT_API_SECRET> --day_count=<DAY_COUNT> --auto_offset_reset=<earliest | latest>"
     echo
     exit 85 # Common GNU/Linux Exit Code for 'Interrupted system call should be restarted'
 fi
@@ -115,16 +130,30 @@ export AWS_REGION=$(aws configure get sso_region $AWS_PROFILE)
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
 
 # Create terraform.tfvars file
-printf "aws_account_id=\"${AWS_ACCOUNT_ID}\"\
-\naws_profile=\"${AWS_PROFILE}\"\
-\naws_region=\"${AWS_REGION}\"\
-\naws_access_key_id=\"${AWS_ACCESS_KEY_ID}\"\
-\naws_secret_access_key=\"${AWS_SECRET_ACCESS_KEY}\"\
-\naws_session_token=\"${AWS_SESSION_TOKEN}\"\
-\nconfluent_api_key=\"${confluent_api_key}\"\
-\nconfluent_api_secret=\"${confluent_api_secret}\"\
-\nauto_offset_reset=\"${auto_offset_reset}\"\
-\nday_count=${day_count}" > terraform.tfvars
+if [ create_action = true ]
+then
+    printf "aws_account_id=\"${AWS_ACCOUNT_ID}\"\
+    \naws_profile=\"${AWS_PROFILE}\"\
+    \naws_region=\"${AWS_REGION}\"\
+    \naws_access_key_id=\"${AWS_ACCESS_KEY_ID}\"\
+    \naws_secret_access_key=\"${AWS_SECRET_ACCESS_KEY}\"\
+    \naws_session_token=\"${AWS_SESSION_TOKEN}\"\
+    \nconfluent_api_key=\"${confluent_api_key}\"\
+    \nconfluent_api_secret=\"${confluent_api_secret}\"\
+    \nenvironment_name=\"${environment_name}\"\
+    \nauto_offset_reset=\"${auto_offset_reset}\"\
+    \nday_count=${day_count}" > terraform.tfvars
+else
+    printf "aws_account_id=\"${AWS_ACCOUNT_ID}\"\
+    \naws_profile=\"${AWS_PROFILE}\"\
+    \naws_region=\"${AWS_REGION}\"\
+    \naws_access_key_id=\"${AWS_ACCESS_KEY_ID}\"\
+    \naws_secret_access_key=\"${AWS_SECRET_ACCESS_KEY}\"\
+    \naws_session_token=\"${AWS_SESSION_TOKEN}\"\
+    \nconfluent_api_key=\"${confluent_api_key}\"\
+    \nconfluent_api_secret=\"${confluent_api_secret}\"\
+    \nenvironment_name=\"${environment_name}\"" > terraform.tfvars
+fi
 
 # Function to handle the deletion of the AWS Secrets
 delete_secrets_handler() {
