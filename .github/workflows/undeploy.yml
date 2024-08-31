@@ -39,7 +39,7 @@ jobs:
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v4
           with:
-            role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActionsRole
+            role-to-assume: arn:aws:iam::${{ vars.DEV_AWS_ACCOUNT_ID }}:role/GitHubActionsRole
             aws-region: ${{ github.event.inputs.aws_region }}
 
         - uses: hashicorp/setup-terraform@v3
@@ -60,7 +60,7 @@ jobs:
           env:
             TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_API_KEY }}
             TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_API_SECRET }}
-            TF_VAR_aws_account_id: ${{ vars.AWS_ACCOUNT_ID }}
+            TF_VAR_aws_account_id: ${{ vars.DEV_AWS_ACCOUNT_ID }}
             TF_VAR_aws_profile: ${{ vars.DEV_ENVIRONMENT_NAME }}
             TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
   
@@ -70,6 +70,6 @@ jobs:
           env:
             TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_API_KEY }}
             TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_API_SECRET }}
-            TF_VAR_aws_account_id: ${{ vars.AWS_ACCOUNT_ID }}
+            TF_VAR_aws_account_id: ${{ vars.DEV_AWS_ACCOUNT_ID }}
             TF_VAR_aws_profile: ${{ vars.DEV_ENVIRONMENT_NAME }}
             TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
