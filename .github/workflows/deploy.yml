@@ -7,6 +7,15 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
+      aws_environment:
+        type: choice
+        description: AWS Environment
+        required: true
+        default: dev
+        options:
+          - dev
+          - test
+          - prod
       aws_region:
         type: choice
         description: AWS Region
@@ -36,12 +45,12 @@ on:
         description: Rotation Day Count
         required: true
 
-run-name: ${{ github.workflow }} ${{ github.ref_name }} branch to the ${{ github.event.inputs.aws_region }} ${{ vars.ENVIRONMENT_NAME }} environment
+run-name: ${{ github.workflow }} ${{ github.ref_name }} branch to the ${{ github.event.inputs.aws_region }} ${{ vars.DEV_AWS_ACCOUNT_ID }} environment
 
 jobs:
   deploy:
     name: "deploy terraform configuration"
-    runs-on: ${{ vars.ENVIRONMENT_NAME }}
+    runs-on: ${{ vars.DEV_ENVIRONMENT_NAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -71,7 +80,7 @@ jobs:
           TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_API_KEY }}
           TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_API_SECRET }}
           TF_VAR_aws_account_id: ${{ vars.AWS_ACCOUNT_ID }}
-          TF_VAR_environment_name: ${{ vars.ENVIRONMENT_NAME }}
+          TF_VAR_environment_name: ${{ vars.DEV_ENVIRONMENT_NAME }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
@@ -84,7 +93,7 @@ jobs:
           TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_API_KEY }}
           TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_API_SECRET }}
           TF_VAR_aws_account_id: ${{ vars.AWS_ACCOUNT_ID }}
-          TF_VAR_environment_name: ${{ vars.ENVIRONMENT_NAME }}
+          TF_VAR_environment_name: ${{ vars.DEV_ENVIRONMENT_NAME }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
