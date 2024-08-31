@@ -39,7 +39,7 @@ Additionally, the configuration manages **Kafka client configuration parameters*
     confluent api-key create --resource "cloud" 
     ```
 
-    Then, save the Confluent Cloud API Key and Secret in a secure place (e.g., AWS Secrets Manager or GitHub Secrets).  You will need th e Confluent Cloud API Key pair when executing the local script to run the Terraform confirmatin or when executing the GitHub Workflow.
+    Next, securely store the Confluent Cloud API Key and Secret in a reliable secret management solution, such as AWS Secrets Manager or GitHub Secrets. These platforms provide encrypted storage, access controls, and automated rotation capabilities, ensuring that sensitive credentials are protected against unauthorized access or leakage. Properly storing your API Key pair is critical because it is required to authenticate and authorize any interactions with the Confluent Cloud when executing your local scripts or running your Terraform configuration in environments like GitHub Actions. This API Key pair allows Terraform to provision, manage, and update Confluent Cloud resources as defined in your infrastructure code, maintaining a secure, automated deployment pipeline.
 
 3. Clone the repo:
     ```shell
@@ -53,11 +53,10 @@ Additionally, the configuration manages **Kafka client configuration parameters*
     b. In the `terraform.cloud.workspaces` block, replace **`iac-confluent-resources-workspace`** with your [Terraform Cloud Organization's Workspaces Name](https://developer.hashicorp.com/terraform/cloud-docs/workspaces).
 
 ## Resources
+[Create a Kafka Cluster on Confluent Cloud from a Template Using Terraform](https://docs.confluent.io/cloud/current/clusters/terraform-provider.html)
 
+[YouTube video by Confluent on Getting started with the Confluent Terraform Provider](https://www.youtube.com/watch?v=ofSQ4j9u6W4)
 
-### GitHub Setup
-In order to run the Terraform configuration, the Terraform Cloud API token and Confluent Cloud API Key are required as GitHub Secret variables:
+[Automating Infrastructure as Code with Apache Kafka and Confluent ft. Rosemary Wang](https://developer.confluent.io/learn-more/podcasts/automating-infrastructure-as-code-with-apache-kafka-and-confluent-ft-rosemary-wang/?utm_medium=sem&utm_source=google&utm_campaign=ch.sem_br.nonbrand_tp.prs_tgt.dsa_mt.dsa_rgn.namer_lng.eng_dv.all_con.confluent-developer&utm_term=&creative=&device=c&placement=&gad_source=1&gclid=Cj0KCQjw28W2BhC7ARIsAPerrcISmtX3Y10dSCLzaSA8wLBdVfZLxh9QulaJQY55N-_oOoaLVjrggSoaAmRAEALw_wcB)
 
-#### Terraform Cloud API token
-From the [Tokens page](https://app.terraform.io/app/settings/tokens), create/update the API token and store it in the [AWS Secrets Manager](https://us-east-1.console.aws.amazon.com/secretsmanager/secret?name=%2Fsi-iac-confluent_cloud_kafka_api_key_rotation-tf%2Fconfluent&region=us-east-1).  Then add/update the `TF_API_TOKEN` secret on the [GitHub Action secrets and variables, secret tab](https://github.com/signalroom/si-iac-confluent_cloud_kafka_api_key_rotation-tf/settings/secrets/actions).
-
+[Best Practices for Confluent Terraform Provider](https://www.confluent.io/blog/best-practices-confluent-terraform-provider/)
