@@ -7,15 +7,6 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      aws_profile:
-        type: choice
-        description: AWS Landing Zone Profile
-        required: true
-        default: dev
-        options:
-          - dev
-          - test
-          - prod
       aws_region:
         type: choice
         description: AWS Region
@@ -45,30 +36,20 @@ on:
         description: Rotation Day Count
         required: true
 
-run-name: ${{ github.workflow }} ${{ github.ref_name }} branch to the ${{ github.event.inputs.aws_region }} ${{ github.event.inputs.aws_profile }} environment
+run-name: ${{ github.workflow }} ${{ github.ref_name }} branch to the ${{ github.event.inputs.aws_region }} ${{ vars.ENVIRONMENT_NAME }} environment
 
 jobs:
   deploy:
     name: "deploy terraform configuration"
-    runs-on: ${{ github.event.inputs.aws_profile }}
+    runs-on: ${{ vars.ENVIRONMENT_NAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get AWS Profile Properties
-        id: aws-profile-properties
-        uses: ./.github/actions/aws-profile-properties
-        with:
-          aws_profile: ${{ github.event.inputs.aws_profile }}
-          aws_region: ${{ github.event.inputs.aws_region }}
-          auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
-          number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
-          day_count: ${{ github.event.inputs.day_count }}
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ steps.aws-profile-properties.outputs.aws_account_id }}:role/GitHubActionsRole
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActionsRole
           aws-region: ${{ github.event.inputs.aws_region }}
 
       - uses: hashicorp/setup-terraform@v3
@@ -87,10 +68,10 @@ jobs:
         id: plan
         run: terraform plan
         env:
-          TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
-          TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
-          TF_VAR_aws_account_id: ${{ steps.aws-profile-properties.outputs.aws_account_id }}
-          TF_VAR_environment_name: ${{ github.event.inputs.aws_profile }}
+          TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_API_KEY }}
+          TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_API_SECRET }}
+          TF_VAR_aws_account_id: ${{ vars.AWS_ACCOUNT_ID }}
+          TF_VAR_environment_name: ${{ vars.ENVIRONMENT_NAME }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
@@ -100,10 +81,10 @@ jobs:
         id: apply
         run: terraform apply -auto-approve
         env:
-          TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
-          TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
-          TF_VAR_aws_account_id: ${{ steps.aws-profile-properties.outputs.aws_account_id }}
-          TF_VAR_environment_name: ${{ github.event.inputs.aws_profile }}
+          TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_API_KEY }}
+          TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_API_SECRET }}
+          TF_VAR_aws_account_id: ${{ vars.AWS_ACCOUNT_ID }}
+          TF_VAR_environment_name: ${{ vars.ENVIRONMENT_NAME }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
