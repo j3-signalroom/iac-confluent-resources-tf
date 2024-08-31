@@ -3,41 +3,28 @@ data "confluent_organization" "env" {}
 
 # Create the Confluent Cloud Environment
 resource "confluent_environment" "env" {
-    display_name = "${var.aws_profile}"
+  display_name = "${var.environment_name}"
+
+  stream_governance {
+  package = "ESSENTIALS"
+  }
 }
 
 # Create the Service Account for the Kafka Cluster API
 resource "confluent_service_account" "schema_registry_cluster_api" {
-    display_name = "${var.aws_profile}-environment-api"
+    display_name = "${var.environment_name}-environment-api"
     description  = "Environment API Service Account"
 }
 
 # Config the environment's schema registry
-data "confluent_schema_registry_region" "env" {
-    cloud   = local.cloud
-    region  = var.aws_region
-    package = "ESSENTIALS"
-}
-
-resource "confluent_schema_registry_cluster" "env" {
-  package = data.confluent_schema_registry_region.env.package
-
+data "confluent_schema_registry_cluster" "env" {
   environment {
     id = confluent_environment.env.id
   }
 
-  region {
-    # See https://docs.confluent.io/cloud/current/stream-governance/packages.html#stream-governance-regions
-    # Schema Registry and Kafka clusters can be in different regions as well as different cloud providers,
-    # but you should to place both in the same cloud and region to restrict the fault isolation boundary.
-    # A fault isolation boundary, also known as a swimlane, is a concept that separates services into failure 
-    # domains to limit the impact of a failure to a specific number of components.
-    id = data.confluent_schema_registry_region.env.id
-  }
-
-  #lifecycle {
-  #  prevent_destroy = true
-  #}
+  depends_on = [
+    confluent_kafka_cluster.kafka_cluster
+  ]
 }
 
 # Create the Kafka cluster
@@ -55,7 +42,7 @@ resource "confluent_kafka_cluster" "kafka_cluster" {
 
 # Create the Service Account for the Kafka Cluster API
 resource "confluent_service_account" "kafka_cluster_api" {
-    display_name = "${var.aws_profile}-kafka_cluster-api"
+    display_name = "${var.environment_name}-kafka_cluster-api"
     description  = "Kafka Cluster API Service Account"
 }
 
