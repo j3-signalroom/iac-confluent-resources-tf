@@ -28,7 +28,7 @@ locals {
 # acitve API Key Pair to use
 module "schema_registry_cluster_api_key_rotation" {
     
-    source  = "github.com/j3-signalroom/iac-confluent_cloud_resource_api_key_rotation-tf_module"
+    source  = "github.com/j3-signalroom/iac-confluent-api_key_rotation-tf_module"
 
     # Required Input(s)
     owner = {
