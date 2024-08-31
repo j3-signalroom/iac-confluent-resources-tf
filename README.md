@@ -12,16 +12,48 @@ Additionally, the configuration manages **Kafka client configuration parameters*
 **Table of Contents**
 
 <!-- toc -->
-+ [How to use this repo?](#how-to-use-this-repo)
-    + [GitHub Setup](#github-setup)
-        - [Terraform Cloud API token](#terraform-cloud-api-token)
-        - [Confluent Cloud API](#confluent-cloud-api)
++ [Let's get started!](#lets-get-started)
++ [Resources](#resources)
 <!-- tocstop -->
 
+## Let's get started!
+**These are the steps**
 
+1. Take care of the cloud and local environment prequisities listed below:
+    > You need to have the following cloud accounts:
+    > - [AWS Account](https://signin.aws.amazon.com/) *with SSO configured*
+    > - [Confluent Cloud Account](https://confluent.cloud/)
+    > - [GitHub Account](https://github.com) *with OIDC configured for AWS*
+    > - [Terraform Cloud Account](https://app.terraform.io/)
 
-## How to use this repo?
-In the [main.tf](main.tf) replace **`<TERRAFORM CLOUD ORGANIZATION NAME>`** in the `terraform.cloud` block with your [Terraform Cloud Organization Name](https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/organizations) and **`<TERRAFORM CLOUD ORGANIZATION's WORKSPACE NAME>`** in the `terraform.cloud.workspaces` block with your [Terraform Cloud Organization's Workspaces Name](https://developer.hashicorp.com/terraform/cloud-docs/workspaces).
+    > You need to have the following installed on your local machine:
+    > - [AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+    > - [Confluent CLI version 3 or higher](https://docs.confluent.io/confluent-cli/4.0/overview.html)
+    > - [Terraform CLI version 1.85 or higher](https://developer.hashicorp.com/terraform/install)
+
+2. Get your Confluent Cloud API key pair, by execute the following Confluent CLI command to generate the Cloud API Key:
+
+    > Click [here](.blog/why-do-you-need-the-confluent-cloud-api-key.md#2-integration-with-cicd-pipelines) to learn why you need it.
+
+    ```shell
+    confluent api-key create --resource "cloud" 
+    ```
+
+    Then, save the Confluent Cloud API Key and Secret in a secure place (e.g., AWS Secrets Manager or GitHub Secrets).  You will need th e Confluent Cloud API Key pair when executing the local script to run the Terraform confirmatin or when executing the GitHub Workflow.
+
+3. Clone the repo:
+    ```shell
+    git clone https://github.com/j3-signalroom/iac-confluent-resources-tf.git
+    ```
+
+4. Update the cloned Terraform module's [main.tf](main.tf) by following these steps:
+
+    a. Locate the `terraform.cloud` block and replace **`signalroom`** with your [Terraform Cloud Organization Name](https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/organizations).
+
+    b. In the `terraform.cloud.workspaces` block, replace **`iac-confluent-resources-workspace`** with your [Terraform Cloud Organization's Workspaces Name](https://developer.hashicorp.com/terraform/cloud-docs/workspaces).
+
+## Resources
+
 
 ### GitHub Setup
 In order to run the Terraform configuration, the Terraform Cloud API token and Confluent Cloud API Key are required as GitHub Secret variables:
@@ -29,11 +61,3 @@ In order to run the Terraform configuration, the Terraform Cloud API token and C
 #### Terraform Cloud API token
 From the [Tokens page](https://app.terraform.io/app/settings/tokens), create/update the API token and store it in the [AWS Secrets Manager](https://us-east-1.console.aws.amazon.com/secretsmanager/secret?name=%2Fsi-iac-confluent_cloud_kafka_api_key_rotation-tf%2Fconfluent&region=us-east-1).  Then add/update the `TF_API_TOKEN` secret on the [GitHub Action secrets and variables, secret tab](https://github.com/signalroom/si-iac-confluent_cloud_kafka_api_key_rotation-tf/settings/secrets/actions).
 
-#### Confluent Cloud API
-Confluent Cloud requires API keys to manage access and authentication to different parts of the service.  An API key consists of a key and a secret.  You can create and manage API keys by using the [Confluent Cloud CLI](https://docs.confluent.io/confluent-cli/current/overview.html).  Learn more about Confluent Cloud API Key access [here](https://docs.confluent.io/cloud/current/access-management/authenticate/api-keys/api-keys.html#ccloud-api-keys).
-
-Using the Confluent CLI, execute the follow command to generate the Cloud API Key:
-```
-confluent api-key create --resource "cloud" 
-```
-Then, for instance, copy-and-paste the API Key and API Secret values to the respective, `CONFLUENT_CLOUD_API_KEY` and `CONFLUENT_CLOUD_API_SECRET` secrets, that need to be created/updated on the [J3 repository Actions secrets and variables page](https://github.com/j3-signalroom/j3-iac-confluent_cloud_resources_api_keys-tf/settings/secrets/actions).
