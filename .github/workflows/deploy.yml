@@ -90,7 +90,7 @@ jobs:
           TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
           TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
           TF_VAR_aws_account_id: ${{ steps.aws-profile-properties.outputs.aws_account_id }}
-          TF_VAR_aws_profile: ${{ github.event.inputs.aws_profile }}
+          TF_VAR_environment_name: ${{ github.event.inputs.aws_profile }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
@@ -103,7 +103,7 @@ jobs:
           TF_VAR_confluent_api_key: ${{ secrets.CONFLUENT_CLOUD_API_KEY }}
           TF_VAR_confluent_api_secret: ${{ secrets.CONFLUENT_CLOUD_API_SECRET }}
           TF_VAR_aws_account_id: ${{ steps.aws-profile-properties.outputs.aws_account_id }}
-          TF_VAR_aws_profile: ${{ github.event.inputs.aws_profile }}
+          TF_VAR_environment_name: ${{ github.event.inputs.aws_profile }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}

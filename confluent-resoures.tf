@@ -6,7 +6,7 @@ resource "confluent_environment" "env" {
   display_name = "${var.environment_name}"
 
   stream_governance {
-  package = "ESSENTIALS"
+    package = "ESSENTIALS"
   }
 }
 
