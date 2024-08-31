@@ -52,6 +52,30 @@ Additionally, the configuration manages **Kafka client configuration parameters*
 
     b. In the `terraform.cloud.workspaces` block, replace **`iac-confluent-resources-workspace`** with your [Terraform Cloud Organization's Workspaces Name](https://developer.hashicorp.com/terraform/cloud-docs/workspaces).
 
+5. To run the Terraform configuration locally, follow these steps:
+
+    a. Navigate to the root folder of the `iac-confluent-resources-tf/` repository that you cloned.
+
+    b. Open a terminal in this directory.
+
+    c. Execute the following script:
+    ```shell
+    scripts/run-terraform-locally.sh <create | delete> --profile=<SSO_PROFILE_NAME> \
+                                                       --environment_name=<ENVIRONMENT_NAMW> \
+                                                       --confluent_api_key=<CONFLUENT_API_KEY> \
+                                                       --confluent_api_secret=<CONFLUENT_API_SECRET> \
+                                                       --day_count=<DAY_COUNT> \
+                                                       --auto_offset_reset=<earliest | latest>
+    ```
+    Argument placeholder|Replace with
+    -|-
+    `<SSO_PROFILE_NAME>`|your AWS SSO profile name for your AWS infrastructue that host your AWS Secrets Manager.
+    `<ENVIRONMENT_NAMW>`|your AWS environment name.
+    `<CONFLUENT_API_KEY>`|your organization's Confluent Cloud API Key (also referred as Cloud API ID).
+    `<CONFLUENT_API_SECRET>`|your organization's Confluent Cloud API Secret.
+    `<DAY_COUNT>`|how many day(s) should the API Key be rotated for.
+    `<AUTO_OFFSET_RESET>`|Specify where a Kafka Consumer should begin reading from in the Kafka Topic when it doesn't have any other valid offsets to start from.
+
 ## Resources
 [Terraform Confluent Provider GitHub Examples](https://github.com/confluentinc/terraform-provider-confluent/tree/master/examples/configurations)
 
