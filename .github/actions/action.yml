@@ -1,0 +1,33 @@
+name: "AWS Environment Info"
+description: 'Based on the input of the environment type, the relevant environmental information is provided as output.'
+
+inputs:
+  aws_environment:
+    required: true
+    description: 'The AWS Environment'
+outputs:
+  aws_environment_name:
+    value: $AWS_ENVIRONMENT_NAME
+  aws_account_id:
+    value: $AWS_ACCOUNT_ID
+
+runs:
+  using: composite
+  steps:
+    - if: contains(['dev'],input.aws_environment)
+      name:dev-environment
+      run: |
+        echo "AWS_ENVIRONMENT_NAME=${{ vars.DEV_ENVIRONMENT_NAME }}" >> $GITHUB_ENV
+        echo "AWS_ACCOUNT_ID=${{ vars.DEV_AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
+
+    - if: contains(['test'],input.aws_environment)
+      name:test-environment
+      run: |
+        echo "AWS_ENVIRONMENT_NAME=${{ vars.TEST_ENVIRONMENT_NAME }}" >> $GITHUB_ENV
+        echo "AWS_ACCOUNT_ID=${{ vars.TEST_AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
+
+    - if: contains(['prod'],input.aws_environment)
+      name:dev-environment
+      run: |
+        echo "AWS_ENVIRONMENT_NAME=${{ vars.PROD_ENVIRONMENT_NAME }}" >> $GITHUB_ENV
+        echo "AWS_ACCOUNT_ID=${{ vars.PROD_AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
