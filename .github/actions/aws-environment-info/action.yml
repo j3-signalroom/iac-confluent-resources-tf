@@ -5,6 +5,15 @@ inputs:
   aws_environment:
     required: true
     description: 'The AWS Environment'
+  aws_dev_account_id:
+    required: true
+    description: 'The AWS Dev Account ID'
+  aws_test_account_id:
+    required: true
+    description: 'The AWS Test Account ID'
+  aws_prod_account_id:
+    required: true
+    description: 'The AWS Prod Account ID'
 outputs:
   aws_account_id:
     value: $AWS_ACCOUNT_ID
@@ -15,20 +24,14 @@ runs:
     - if: inputs.aws_environment == 'dev'
       name: dev-environment
       shell: bash
-      run: echo "AWS_ACCOUNT_ID=$DEV_AWS_ACCOUNT_ID" >> $GITHUB_ENV
-      env:
-        DEV_AWS_ACCOUNT_ID: ${{ vars.DEV_AWS_ACCOUNT_ID }}
+      run: echo "AWS_ACCOUNT_ID=inputs.aws_dev_account_id" >> $GITHUB_ENV
 
     - if: inputs.aws_environment == 'test'
       name: test-environment
       shell: bash
-      run: echo "AWS_ACCOUNT_ID=$TEST_AWS_ACCOUNT_ID" >> $GITHUB_ENV
-      env:
-        TEST_AWS_ACCOUNT_ID: ${{ vars.TEST_AWS_ACCOUNT_ID }}
+      run: echo "AWS_ACCOUNT_ID=inputs.aws_test_account_id" >> $GITHUB_ENV
 
     - if: inputs.aws_environment == 'prod'
       name: prod-environment
       shell: bash
-      run: echo "AWS_ACCOUNT_ID=$PROD_AWS_ACCOUNT_ID" >> $GITHUB_ENV
-      env:
-        PROD_AWS_ACCOUNT_ID: ${{ vars.PROD_AWS_ACCOUNT_ID }}
+      run: echo "AWS_ACCOUNT_ID=inputs.aws_prod_account_id" >> $GITHUB_ENV
