@@ -24,7 +24,7 @@ inputs:
     required: false
 outputs:
   aws_account_id:
-    value: ${{ env.AWS_ACCOUNT_ID }}
+    value: ${{ steps.workflow-inputs-output.outputs.AWS_ACCOUNT_ID }}
 
 runs:
   using: composite
@@ -50,8 +50,9 @@ runs:
     - name: "Display Workflow Inputs"
       shell: bash
       working-directory: ./.github/
-      id: workflow-inputs
+      id: workflow-inputs-output
       run: |
+        echo "AWS_ACCOUNT_ID=${{ env.$AWS_ACCOUNT_ID }}" >> $GITHUB_OUTPUT
         echo "### Workflow Inputs" >> $GITHUB_STEP_SUMMARY
         echo `date` >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
