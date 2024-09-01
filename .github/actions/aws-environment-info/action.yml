@@ -16,6 +16,8 @@ inputs:
     description: 'The AWS Prod Account ID'
   aws_region:
     required: true
+  auto_offset_reset:
+    required: false
   number_of_api_keys_to_retain:
     required: false
   day_count:
