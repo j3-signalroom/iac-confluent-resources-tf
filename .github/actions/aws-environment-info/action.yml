@@ -52,7 +52,7 @@ runs:
       working-directory: ./.github/
       id: workflow-inputs-output
       run: |
-        echo "AWS_ACCOUNT_ID=${{ env.$AWS_ACCOUNT_ID }}" >> $GITHUB_OUTPUT
+        echo "AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}" >> $GITHUB_OUTPUT
         echo "### Workflow Inputs" >> $GITHUB_STEP_SUMMARY
         echo `date` >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
