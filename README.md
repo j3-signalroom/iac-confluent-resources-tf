@@ -80,13 +80,13 @@ Additionally, the configuration manages **Kafka client configuration parameters*
 
     a. **Deploy the Repository**: Ensure that you have cloned or forked the repository to your GitHub account.
 
-    b. **Set Required Secrets and Variables**: Before running any of the GitHub workflows provided in the repository, you must define at least the `DEV_AWS_ACCOUNT_ID` variable (which should contain your AWS Account ID for your development environment). To do this:
+    b. **Set Required Secrets and Variables**: Before running any of the GitHub workflows provided in the repository, you must define at least the `AWS_DEV_ACCOUNT_ID` variable (which should contain your AWS Account ID for your development environment). To do this:
 
     - Go to the **Settings** of your cloned or forked repository in GitHub.
 
     - Navigate to **Secrets and Variables** > **Actions**.
 
-    - Add the `DEV_AWS_ACCOUNT_ID` and any other required variables or secrets.
+    - Add the `AWS_DEV_ACCOUNT_ID` and any other required variables or secrets.
 
     c. **Navigate to the Actions Page**:
 

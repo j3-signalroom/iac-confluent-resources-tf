@@ -41,6 +41,10 @@ jobs:
           uses: ./.github/actions/aws-environment-info
           with:
             aws_environment: ${{ github.event.inputs.aws_environment }}
+            aws_dev_account_id: ${{ vars.AWS_DEV_ACCOUNT_ID }}
+            aws_test_account_id: ${{ vars.AWS_TEST_ACCOUNT_ID }}
+            aws_prod_account_id: ${{ vars.AWS_PROD_ACCOUNT_ID }}
+            aws_region: ${{ github.event.inputs.aws_region }}
 
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v4
