@@ -61,7 +61,7 @@ Additionally, the configuration manages **Kafka client configuration parameters*
     c. Execute the following script:
     ```shell
     scripts/run-terraform-locally.sh <create | delete> --profile=<SSO_PROFILE_NAME> \
-                                                       --environment_name=<ENVIRONMENT_NAMW> \
+                                                       --environment_name=<ENVIRONMENT_NAME> \
                                                        --confluent_api_key=<CONFLUENT_API_KEY> \
                                                        --confluent_api_secret=<CONFLUENT_API_SECRET> \
                                                        --day_count=<DAY_COUNT> \
@@ -70,7 +70,7 @@ Additionally, the configuration manages **Kafka client configuration parameters*
     Argument placeholder|Replace with
     -|-
     `<SSO_PROFILE_NAME>`|your AWS SSO profile name for your AWS infrastructue that host your AWS Secrets Manager.
-    `<ENVIRONMENT_NAMW>`|your AWS environment name.
+    `<ENVIRONMENT_NAME>`|your AWS environment name.
     `<CONFLUENT_API_KEY>`|your organization's Confluent Cloud API Key (also referred as Cloud API ID).
     `<CONFLUENT_API_SECRET>`|your organization's Confluent Cloud API Secret.
     `<DAY_COUNT>`|how many day(s) should the API Key be rotated for.
