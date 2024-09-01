@@ -82,6 +82,9 @@ jobs:
           echo "SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> $GITHUB_ENV
           echo "SESSION_TOKEN=$AWS_SESSION_TOKEN" >> $GITHUB_ENV
 
+      - name: Print all environment variables
+        run: printenv  # Lists all environment variables available on the runner
+
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
