@@ -32,22 +32,25 @@ runs:
     - if: inputs.aws_environment == 'dev'
       name: dev-environment
       shell: bash
+      working-directory: ./.github/
       run: echo "AWS_ACCOUNT_ID=inputs.aws_dev_account_id" >> $GITHUB_ENV
 
     - if: inputs.aws_environment == 'test'
       name: test-environment
       shell: bash
+      working-directory: ./.github/
       run: echo "AWS_ACCOUNT_ID=inputs.aws_test_account_id" >> $GITHUB_ENV
 
     - if: inputs.aws_environment == 'prod'
       name: prod-environment
       shell: bash
+      working-directory: ./.github/
       run: echo "AWS_ACCOUNT_ID=inputs.aws_prod_account_id" >> $GITHUB_ENV
 
     - name: "Read in the AWS Profile Properties file into the GitHub Workflow, and output the inputs from the dialog box"
       shell: bash
-      working-directory: ./.github/aws-profile/
-      id: aws-profile-property
+      working-directory: ./.github/
+      id: workflow-inputs
       run: |
         echo "### Workflow Inputs" >> $GITHUB_STEP_SUMMARY
         echo `date` >> $GITHUB_STEP_SUMMARY
