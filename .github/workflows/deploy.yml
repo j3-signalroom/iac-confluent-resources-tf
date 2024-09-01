@@ -103,6 +103,9 @@ jobs:
           TF_VAR_aws_account_id: ${{ steps.aws-environment-info.outputs.aws_account_id }}
           TF_VAR_environment_name: ${{ github.event.inputs.aws_environment }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
+          TF_VAR_aws_access_key_id: ${{ env.ACCESS_KEY_ID }}
+          TF_VAR_aws_secret_access_key: ${{ env.SECRET_ACCESS_KEY_ID }}
+          TF_VAR_aws_session_token: ${{ env.SESSION_TOKEN }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
           TF_VAR_day_count: ${{ github.event.inputs.day_count }}
@@ -116,6 +119,9 @@ jobs:
           TF_VAR_aws_account_id: ${{ steps.aws-environment-info.outputs.aws_account_id }}
           TF_VAR_environment_name: ${{ github.event.inputs.aws_environment }}
           TF_VAR_aws_region: ${{ github.event.inputs.aws_region }}
+          TF_VAR_aws_access_key_id: ${{ env.ACCESS_KEY_ID }}
+          TF_VAR_aws_secret_access_key: ${{ env.SECRET_ACCESS_KEY_ID }}
+          TF_VAR_aws_session_token: ${{ env.SESSION_TOKEN }}
           TF_VAR_auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
           TF_VAR_number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
           TF_VAR_day_count: ${{ github.event.inputs.day_count }}

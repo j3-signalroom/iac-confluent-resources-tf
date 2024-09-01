@@ -3,14 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.20.01.000] - 2024-09-01
-### Fixed
-- 
-
 ## [0.20.00.000] - 2024-09-01
 ### Added
 - GitHub Action that determines the AWS Account ID.
 - instructions on how to execute Terraform from a GitHub Workflow.
+
+### Fixed
+- 
 
 ## [0.11.00.000] - 2024-08-31
 ### Added
