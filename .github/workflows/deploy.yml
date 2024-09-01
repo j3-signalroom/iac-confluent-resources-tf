@@ -63,6 +63,10 @@ jobs:
           aws_dev_account_id: ${{ vars.AWS_DEV_ACCOUNT_ID }}
           aws_test_account_id: ${{ vars.AWS_TEST_ACCOUNT_ID }}
           aws_prod_account_id: ${{ vars.AWS_PROD_ACCOUNT_ID }}
+          aws_region: ${{ github.event.inputs.aws_region }}
+          auto_offset_reset: ${{ github.event.inputs.auto_offset_reset }}
+          number_of_api_keys_to_retain: ${{ github.event.inputs.number_of_api_keys_to_retain }}
+          day_count: ${{ github.event.inputs.day_count }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
