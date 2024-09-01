@@ -14,18 +14,21 @@ runs:
   steps:
     - if: inputs.aws_environment == 'dev'
       name: dev-environment
+      shell: bash
       run: echo "AWS_ACCOUNT_ID=$DEV_AWS_ACCOUNT_ID" >> $GITHUB_ENV
       env:
         DEV_AWS_ACCOUNT_ID: ${{ vars.DEV_AWS_ACCOUNT_ID }}
 
     - if: inputs.aws_environment == 'test'
       name: test-environment
+      shell: bash
       run: echo "AWS_ACCOUNT_ID=$TEST_AWS_ACCOUNT_ID" >> $GITHUB_ENV
       env:
         TEST_AWS_ACCOUNT_ID: ${{ vars.TEST_AWS_ACCOUNT_ID }}
 
     - if: inputs.aws_environment == 'prod'
       name: prod-environment
+      shell: bash
       run: echo "AWS_ACCOUNT_ID=$PROD_AWS_ACCOUNT_ID" >> $GITHUB_ENV
       env:
         PROD_AWS_ACCOUNT_ID: ${{ vars.PROD_AWS_ACCOUNT_ID }}
