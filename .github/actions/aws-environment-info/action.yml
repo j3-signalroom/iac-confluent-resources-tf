@@ -12,19 +12,19 @@ outputs:
 runs:
   using: composite
   steps:
-    - if: contains(['dev'],input.aws_environment)
+    - if: input.aws_environment == 'dev'
       name: dev-environment
       run: echo "AWS_ACCOUNT_ID=$DEV_AWS_ACCOUNT_ID" >> $GITHUB_ENV
       env:
         DEV_AWS_ACCOUNT_ID: ${{ vars.DEV_AWS_ACCOUNT_ID }}
 
-    - if: contains(['test'],input.aws_environment)
+    - if: input.aws_environment == 'test'
       name: test-environment
       run: echo "AWS_ACCOUNT_ID=$TEST_AWS_ACCOUNT_ID" >> $GITHUB_ENV
       env:
         TEST_AWS_ACCOUNT_ID: ${{ vars.TEST_AWS_ACCOUNT_ID }}
 
-    - if: contains(['prod'],input.aws_environment)
+    - if: input.aws_environment == 'prod'
       name: prod-environment
       run: echo "AWS_ACCOUNT_ID=$PROD_AWS_ACCOUNT_ID" >> $GITHUB_ENV
       env:
