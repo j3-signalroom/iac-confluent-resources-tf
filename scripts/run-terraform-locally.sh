@@ -3,7 +3,7 @@
 #
 # *** Script Syntax ***
 # scripts/run-terraform-locally.sh <create | delete> --profile=<SSO_PROFILE_NAME> \
-#                                                    --environment_name=<ENVIRONMENT_NAMW> \
+#                                                    --environment_name=<ENVIRONMENT_NAME> \
 #                                                    --confluent_api_key=<CONFLUENT_API_KEY> \
 #                                                    --confluent_api_secret=<CONFLUENT_API_SECRET> \
 #                                                    --day_count=<DAY_COUNT> \
