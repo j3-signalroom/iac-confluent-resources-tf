@@ -47,7 +47,7 @@ runs:
       working-directory: ./.github/
       run: echo "AWS_ACCOUNT_ID=${{ inputs.aws_prod_account_id }}" >> $GITHUB_ENV
 
-    - name: "Read in the AWS Profile Properties file into the GitHub Workflow, and output the inputs from the dialog box"
+    - name: "Display Workflow Inputs"
       shell: bash
       working-directory: ./.github/
       id: workflow-inputs
