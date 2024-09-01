@@ -6,6 +6,7 @@ The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 ## [x.xx.xx.xxx]] - YYYY-MM-DD
 ### Added
 - GitHub Action that determines the AWS Account ID.
+- Added instructions on how to execute Terraform from a GitHub Workflow.
 
 ## [0.11.00.000] - 2024-08-31
 ### Added
