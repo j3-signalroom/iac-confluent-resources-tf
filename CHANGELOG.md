@@ -9,7 +9,7 @@ The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 - instructions on how to execute Terraform from a GitHub Workflow.
 
 ### Fixed
-- 
+- from the GitHub Workflows the AWS credentials are now being passed to the Terraform configuration.
 
 ## [0.11.00.000] - 2024-08-31
 ### Added
