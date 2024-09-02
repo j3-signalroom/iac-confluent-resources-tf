@@ -8,6 +8,9 @@ The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 - GitHub Action that determines the AWS Account ID.
 - instructions on how to execute Terraform from a GitHub Workflow.
 
+### Fixed
+- 
+
 ## [0.11.00.000] - 2024-08-31
 ### Added
 - instructions to the README.md to run the Terraform script.
