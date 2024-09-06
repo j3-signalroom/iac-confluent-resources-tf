@@ -3,9 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [x.xx.xx.xxx] - YYYY-MM-DD
+## [0.21.00.000] - 2024-09-05
+### Changed
+- Upgraded the version of Terraform AWS Provider to `5.66.0`, and Terraform Snowflake Provider to `0.95.0`.
+
 ### Fixed
-- Fix typo in the `undeployed.yml`, and remove `aws_profile` argument that is being passed to the Terraform configuration.
+- Fix typo in the `undeployed.yml`, and removed the `aws_profile` argument that was being passed to the Terraform configuration.
 
 ## [0.20.00.000] - 2024-09-01
 ### Added
