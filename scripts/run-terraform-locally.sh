@@ -154,21 +154,12 @@ else
     \nenvironment_name=\"${environment_name}\"" > terraform.tfvars
 fi
 
-# Function to handle the deletion of the AWS Secrets
-delete_secrets_handler() {
-    # Force the delete of the AWS Secrets
-    aws secretsmanager delete-secret --secret-id '/confluent_cloud_resource/schema_registry_cluster/java_client' --force-delete-without-recovery
-    aws secretsmanager delete-secret --secret-id '/confluent_cloud_resource/kafka_cluster/java_client' --force-delete-without-recovery
-}
-
-# Set the trap to catch the deletion of the AWS Secrets
-trap 'delete_secrets_handler' ERR
-
+# Initialize the Terraform configuration
 terraform init
 
 if [ "$create_action" = true ]
 then
-    # Create/Update/Destroy the Terraform configuration
+    # Create/Update the Terraform configuration
     terraform plan -var-file=terraform.tfvars
     terraform apply -var-file=terraform.tfvars
 else
@@ -176,6 +167,6 @@ else
     terraform destroy -var-file=terraform.tfvars
 
     # Force the delete of the AWS Secrets
-    aws secretsmanager delete-secret --secret-id '/confluent_cloud_resource/schema_registry_cluster/java_client' --force-delete-without-recovery
-    aws secretsmanager delete-secret --secret-id '/confluent_cloud_resource/kafka_cluster/java_client' --force-delete-without-recovery
+    aws secretsmanager delete-secret --secret-id '/confluent_cloud_resource/schema_registry_cluster/java_client' --force-delete-without-recovery || true
+    aws secretsmanager delete-secret --secret-id '/confluent_cloud_resource/kafka_cluster/java_client' --force-delete-without-recovery || true
 fi
