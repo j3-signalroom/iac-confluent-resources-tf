@@ -1,5 +1,6 @@
 name: "AWS Environment Info"
 description: 'Based on the input of the environment type, the relevant environmental information is provided as output.'
+author: 'Jeffrey Jonathan Jennings (J3)'
 
 inputs:
   aws_environment:
