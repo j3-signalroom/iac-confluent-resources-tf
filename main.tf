@@ -7,6 +7,10 @@ terraform {
         }
   }
 
+  # Using the "pessimistic constraint operators" for all the Providers to ensure
+  # that the provider version is compatible with the configuration.  Meaning
+  # only patch-level updates are allowed but minor-level and major-level 
+  # updates of the Providers are not allowed
   required_providers {
         confluent = {
             source  = "confluentinc/confluent"
@@ -24,8 +28,8 @@ locals {
   secrets_prefix = "/confluent_cloud_resource"
 }
 
-# Create the Environment API Key Pairs, rotate them in accordance to a time schedule, and provide the current
-# acitve API Key Pair to use
+# Create the Environment API Key Pairs, rotate them in accordance to a time schedule, 
+# and provide the current acitve API Key Pair to use
 module "schema_registry_cluster_api_key_rotation" {
     
     source  = "github.com/j3-signalroom/iac-confluent-api_key_rotation-tf_module"
@@ -56,8 +60,8 @@ module "schema_registry_cluster_api_key_rotation" {
     day_count = var.day_count
 }
 
-# Create the Kafka Cluster API Key Pairs, rotate them in accordance to a time schedule, and provide the current acitve API Key Pair
-# to use
+# Create the Kafka Cluster API Key Pairs, rotate them in accordance to a time schedule,
+# and provide the current acitve API Key Pair to use
 module "kafka_cluster_api_key_rotation" {
     source  = "github.com/j3-signalroom/iac-confluent-api_key_rotation-tf_module"
 

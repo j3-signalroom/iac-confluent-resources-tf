@@ -56,6 +56,7 @@ do
             auto_offset_reset="latest";;
     esac
 done
+
 # Check required --profile argument was supplied
 if [ -z $AWS_PROFILE ]
 then
