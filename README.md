@@ -12,11 +12,11 @@ Additionally, the configuration manages **Kafka client configuration parameters*
 **Table of Contents**
 
 <!-- toc -->
-+ [Let's get started!](#lets-get-started)
-+ [Resources](#resources)
++ [1.0 Let's get started!](#10-lets-get-started)
++ [2.0 Resources](#20-resources)
 <!-- tocstop -->
 
-## Let's get started!
+## 1.0 Let's get started!
 **These are the steps**
 
 1. Take care of the cloud and local environment prequisities listed below:
@@ -104,7 +104,7 @@ Additionally, the configuration manages **Kafka client configuration parameters*
 
     By following these steps, you will run the Terraform configuration directly from GitHub, leveraging GitHub Actions for automation and deployment.
 
-## Resources
+## 2.0 Resources
 [Terraform Confluent Provider GitHub Examples](https://github.com/confluentinc/terraform-provider-confluent/tree/master/examples/configurations)
 
 [Create a Kafka Cluster on Confluent Cloud from a Template Using Terraform](https://docs.confluent.io/cloud/current/clusters/terraform-provider.html)
