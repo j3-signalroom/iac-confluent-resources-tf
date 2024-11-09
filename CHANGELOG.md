@@ -5,7 +5,7 @@ The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 
 ## [0.22.00.000] - 2024-11-08
 ### Added
--
+- Issue [#81](https://github.com/j3-signalroom/iac-confluent-resources-tf/issues/81).
 
 ### Changed
 - Upgraded the version of Terraform AWS Provider to `5.75.0`, and Terraform Confluent Provider to `2.9.0`.
