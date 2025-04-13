@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.24.00.000] - 2025-04-13
+### Changed
+- Upgraded the version of Terraform AWS Provider to `5.94.1`, and Terraform Confluent Provider to `2.24.0`.
+
 ## [0.23.00.000] - 2024-11-22
 ### Changed
 - Upgraded the version of Terraform AWS Provider to `5.77.0`, and Terraform Confluent Provider to `2.10.0`.
