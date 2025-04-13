@@ -14,11 +14,11 @@ terraform {
   required_providers {
         confluent = {
             source  = "confluentinc/confluent"
-            version = "~> 2.22.0"
+            version = "~> 2.24.0"
         }
         aws = {
             source  = "hashicorp/aws"
-            version = "~> 5.92.0"
+            version = "~> 5.94.1"
         }
     }
 }
