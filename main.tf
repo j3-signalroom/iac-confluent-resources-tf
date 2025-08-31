@@ -5,16 +5,12 @@ terraform {
         workspaces {
             name = "iac-confluent-resources-workspace"
         }
-  }
+    }
 
-  # Using the "pessimistic constraint operators" for all the Providers to ensure
-  # that the provider version is compatible with the configuration.  Meaning
-  # only patch-level updates are allowed but minor-level and major-level 
-  # updates of the Providers are not allowed
-  required_providers {
+    required_providers {
         confluent = {
             source  = "confluentinc/confluent"
-            version = "2.37.0"
+            version = "2.38.0"
         }
         aws = {
             source  = "hashicorp/aws"
