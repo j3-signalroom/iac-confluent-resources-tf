@@ -6,8 +6,8 @@ The format is base on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), 
 
 ## [0.30.00.000] - 2025-10-16
 ### Added
+- Issue [#115](https://github.com/j3-signalroom/iac-confluent-resources-tf/issues/115).
 - Issue [#116](https://github.com/j3-signalroom/iac-confluent-resources-tf/issues/116).
-- Issue [#118](https://github.com/j3-signalroom/iac-confluent-resources-tf/issues/118).
 
 ## [0.29.00.000] - 2025-10-12
 ### Added
